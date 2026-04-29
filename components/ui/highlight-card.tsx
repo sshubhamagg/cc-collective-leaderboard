@@ -1,5 +1,7 @@
 import type { ReactElement, ReactNode } from "react";
 
+type RankVariant = "gold" | "silver" | "bronze";
+
 type HighlightCardProps = {
   label: string;
   title: string;
@@ -7,6 +9,9 @@ type HighlightCardProps = {
   meta?: string;
   ornament?: ReactNode;
   serifTitle?: boolean;
+  rankVariant?: RankVariant;
+  featured?: boolean;
+  className?: string;
 };
 
 export function HighlightCard({
@@ -16,9 +21,28 @@ export function HighlightCard({
   meta,
   ornament,
   serifTitle = false,
+  rankVariant,
+  featured = false,
+  className,
 }: HighlightCardProps): ReactElement {
+  const cardClasses = [
+    "highlight-card",
+    rankVariant ? `highlight-card-${rankVariant}` : "",
+    featured ? "highlight-card-featured" : "",
+    className ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const valueClass = [
+    "highlight-card-value",
+    rankVariant ? `rank-value-${rankVariant}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <article className="highlight-card">
+    <article className={cardClasses}>
       <div className="flex items-start justify-between gap-4">
         <p className="highlight-card-label">{label}</p>
         {ornament ? <div className="shrink-0">{ornament}</div> : null}
@@ -31,7 +55,7 @@ export function HighlightCard({
         >
           {title}
         </h2>
-        <p className="highlight-card-value">{value}</p>
+        <p className={valueClass}>{value}</p>
         {meta ? <p className="highlight-card-meta">{meta}</p> : null}
       </div>
     </article>
