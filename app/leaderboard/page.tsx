@@ -1,8 +1,7 @@
 import type { ReactElement } from "react";
 
 import { Header } from "@/components/header";
-import { LeaderboardTable } from "@/components/leaderboard-table";
-import { TopCreators } from "@/components/top-creators";
+import { LeaderboardShell } from "@/components/leaderboard-shell";
 import { getLatestLeaderboardSnapshot } from "@/lib/leaderboard-query";
 import { createClient } from "@/utils/supabase/server";
 import { formatDateTime } from "@/lib/utils";
@@ -25,8 +24,7 @@ export default async function LeaderboardPage(): Promise<ReactElement> {
       <div className="page-shell">
         <div className="page-stack">
           <Header lastUpdated={lastUpdatedLabel} />
-          <TopCreators entries={latestLeaderboard.entries} />
-          <LeaderboardTable entries={latestLeaderboard.entries} />
+          <LeaderboardShell entries={latestLeaderboard.entries} />
         </div>
       </div>
     </main>
