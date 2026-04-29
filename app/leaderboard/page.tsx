@@ -4,15 +4,17 @@ import { Header } from "@/components/header";
 import { LeaderboardTable } from "@/components/leaderboard-table";
 import { TopCreators } from "@/components/top-creators";
 import { getLatestLeaderboardSnapshot } from "@/lib/leaderboard-query";
-import { getPrismaClient } from "@/lib/prisma";
+import { createClient } from "@/utils/supabase/server";
 import { formatDateTime } from "@/lib/utils";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export default async function LeaderboardPage(): Promise<ReactElement> {
-  const latestLeaderboard =
-    await getLatestLeaderboardSnapshot(getPrismaClient());
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const latestLeaderboard = await getLatestLeaderboardSnapshot(supabase);
   const lastUpdatedLabel =
     latestLeaderboard.lastUpdatedAt === null
       ? "Not available"
