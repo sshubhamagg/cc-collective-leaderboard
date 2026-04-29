@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 import { getLatestLeaderboardSnapshot } from "@/lib/leaderboard-query";
-import { getPrismaClient } from "@/lib/prisma";
+import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const latestLeaderboard =
-      await getLatestLeaderboardSnapshot(getPrismaClient());
+    const cookieStore = await cookies();
+    const supabase = createClient(cookieStore);
+    const latestLeaderboard = await getLatestLeaderboardSnapshot(supabase);
 
     return NextResponse.json(latestLeaderboard.entries, {
       headers: {
