@@ -33,7 +33,7 @@ export function TopCreators({
           serifTitle
           rankVariant="gold"
           featured
-          className="md:order-2"
+          className="md:order-1"
         />
       )}
       {/* Rank 2 — left on desktop */}
@@ -46,7 +46,7 @@ export function TopCreators({
           meta={meta}
           serifTitle
           rankVariant="silver"
-          className="md:order-1"
+          className="md:order-2"
         />
       )}
       {/* Rank 3 — right on desktop */}
